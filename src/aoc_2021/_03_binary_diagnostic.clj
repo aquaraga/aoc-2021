@@ -1,5 +1,6 @@
 (ns aoc-2021._03-binary-diagnostic
-  (:require [clojure.string :as str] [aoc-2021.__data :refer :all]))
+  (:require [clojure.string :as str]
+            [aoc-2021.__data :refer :all]))
 
 (defn count-where [elem elems] (count (filter #(= % elem) elems)))
 (def ones (partial count-where \1))
