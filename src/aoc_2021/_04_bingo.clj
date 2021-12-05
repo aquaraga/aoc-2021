@@ -29,12 +29,20 @@
 (defn score [board input]
   (* input (reduce + (filter #(not= -1 %) board))))
 
-(defn winning-board-score [boards bing-inputs]
-  (loop [acc boards last-played -1 inputs bing-inputs]
+(defn winning-board-scores [boards bing-inputs]
+  (loop [acc boards last-played -1 inputs bing-inputs scores []]
     (let [winning-boards (filter has-won acc) current-input (first inputs)]
-      (if (seq winning-boards)
-        (score (first winning-boards) last-played)
-        (recur (play acc current-input) current-input (rest inputs))))))
+      (if (seq inputs)
+        (recur (play (filter (complement has-won) acc) current-input)
+               current-input
+               (rest inputs)
+               (if (seq winning-boards)
+                 (conj scores (score (first winning-boards) last-played))
+                 scores)
+               )
+        scores
+        ))))
 
 (defn -main [& _]
-  (println (winning-board-score (get-bingo-boards bingo-boards) bingo-inputs)))
+  (println "First winning score " (first (winning-board-scores (get-bingo-boards bingo-boards) bingo-inputs)))
+  (println "Last winning score " (last (winning-board-scores (get-bingo-boards bingo-boards) bingo-inputs))))

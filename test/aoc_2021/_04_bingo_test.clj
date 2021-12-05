@@ -24,4 +24,4 @@
 
 (deftest winning-board-score-test
   (testing "should calculate winning board score"
-    (is (= 4512 (winning-board-score boards inputs)))))
+    (is (= [4512 2192 1924] (winning-board-scores boards inputs)))))
